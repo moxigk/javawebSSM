@@ -1,0 +1,10 @@
+package com.bishe.ecard.utils;
+
+public class testdate {
+     
+	public static void main(String[] args) {
+		String string="Sat Feb 15 15:22:08 CST 2020";
+		dateSimp.formatDate1(string);
+		
+	}
+}

@@ -1,0 +1,31 @@
+package com.bishe.ecard.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bishe.ecard.dao.userDao;
+import com.bishe.ecard.entity.user;
+@Service
+public class userService {
+	@Autowired
+	userDao tDao;
+	public user find() {
+		
+		return tDao.find();
+	}
+	/*
+	 * 登录验证
+	 */
+	public int loginvalited(String username) {
+		
+		return tDao.loginvalited(username);
+	}
+	public user loginpass(String username) {
+		
+		return tDao.loginpass(username);
+		
+	}
+
+
+
+}

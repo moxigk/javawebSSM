@@ -1,0 +1,197 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+ <% 
+String path=request.getContextPath();
+String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+pageContext.setAttribute("basePath", basePath);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ecard</title>
+		<link href="${pageScope.basePath}/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${pageScope.basePath}/css/shouye.css" rel="stylesheet">
+		<script src="${pageScope.basePath}/js/jquery-3.4.1.min.js"></script>
+		<!-- 引入BootStrap核心js文件 -->
+		<script src="${pageScope.basePath}/js/bootstrap.min.js"></script>
+		<link href="${pageScope.basePath}/css/manager.css" rel="stylesheet">
+		<style>
+		   .user_center{
+		     display:block;
+		   }
+		</style>		
+ </head>
+ <body>
+     <% /* String param=request.getParameter("username"); 
+	   request.setAttribute("username", param); */
+	   Cookie cookie[]=request.getCookies();
+	   if(cookie!=null){
+	   	 for(int i=0;i<cookie.length;i++){
+	   		 Cookie c=cookie[i];
+	   		 if(cookie[i].getName().equals("username")){
+				  pageContext.setAttribute("username",c.getValue());
+				  System.out.println("manger+"+pageContext.getAttribute("username"));
+		   		 }else{
+		   			pageContext.setAttribute("username","");	
+		   		 System.out.println("manger+"+pageContext.getAttribute("username"));
+		   		 }
+		  }
+	   	 }
+	   
+	%>
+	<!--头部-->
+      <div class="top">
+			<div class="logo">
+				<a href="${pageScope.basePath }/"><img src="img/logo.png"></a>
+			</div>
+			<div class="nav">
+				<ul>
+					<li class="feature"><a href="${pageScope.basePath }/index" class="top_link">首页</a></li>
+					<li class="feature"><a href="#" class="top_link">电子贺卡</a></li>
+					<li class="feature"><a href="#" class="top_link">请帖</a></li>
+					<li class="feature"><a href="${pageScope.basePath }/manager" class="top_link">个人管理</a></li>
+					<li class="feature"><a href="#" class="top_link">系统管理</a></li>
+				</ul>
+			</div>
+			<div class="loginstatus" id="loginstatus">
+			<span class="usernamestatus" id="usernamestatue">${pageScope.username}&nbsp;&nbsp;:&nbsp;欢迎使用凯诚设计！</span>
+			</div>
+			<div class="loading" id="loading">
+				<a href="${pageScope.basePath }/loginpage"><button class="btn" id="login-btn" >登录</button></a>
+				<a href="${pageScope.basePath }/registerpage"><button class="btn" id="register-btn">注册</button></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="main">
+			<div class="sidebar">
+				<!--个人信息显示-->
+				<div class="userdisplay" id="userdisplay">
+					${pageScope.username}:你好！
+					
+				</div>
+				
+				<!--导航标签-->
+				<ul class="sidemune">
+					<li class="current" data-id="center" id="li1">个人中心</li>
+					<li data-id="user">个人贺卡管理</li>
+					<li data-id="usermanager">用户管理</li>
+					<li data-id="account">模板管理</li>
+
+				</ul>
+			</div>
+			<div class="content" id="content">
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="footer">
+			<div class="footer_link">
+				<ul>
+					<li><a href="#">最新素材</a></li>
+					<li><a href="#">热门话题</a></li>
+					<li><a href="#">关于我们</a></li>
+					<li><a href="#">联系我们</a></li>
+				</ul>
+			</div>
+			
+			 <span>十秒解决PS难题</span>
+		</div>	
+		<script>	
+            $(".sidemune").on("click", "li", function() {
+                var sId = $(this).data("id"); //获取data-id的值
+                window.location.hash = sId; //设置锚点
+                loadInner(sId);
+            }); 
+            function loadInner(sId) {
+                var sId = window.location.hash;
+                var pathn, i;
+                switch(sId) {
+                    case "#center":
+                    	/* $.ajax({
+                    		url:"${pageScope.basePath}/user_center",
+                    		async:true,
+                    		data:{"username":username},
+                    		success:function(data){
+                    			if(data.msg=='1'){
+                    			pathn = "user_center.jsp";
+                    			}
+                    			}
+                    		}
+                    	)  */
+                    	pathn = "user_center.jsp";
+                        i = 0;
+                        break;
+                    case "#12":
+                        pathn = "user_r.jsp";
+                        i = 1;
+                        break;
+                    case "#usermanager":
+                        pathn = "user_manager.jsp";
+                        i = 2;
+                        break;
+                    case "#info":
+                        pathn = "user_info.html";
+                        i = 3;
+                        break;
+                    default:
+                        pathn = "user_center.jsp";
+                        i = 0;
+                        break;
+                }
+
+                $("#content").load(pathn); //加载相对应的内容
+
+                $(".sidemune li").eq(i).addClass("current").siblings().removeClass("current"); //当前列表高亮
+
+            }
+
+            var sId = window.location.hash;
+
+            loadInner(sId);
+
+       
+			 
+
+		  
+			  var usernamestatue=document.getElementById('usernamestatue');
+				 var loading=document.getElementById('loading');
+				 var loginstatus=document.getElementById('loginstatus');
+				 var li=document.getElementById('li1');
+				 var userdisplay=document.getElementById('userdisplay');
+		    /*  function GetRequest() {
+		     var url = location.search; //获取url中"?"符后的字串
+		     var theRequest = new Object();
+		     if (url.indexOf("?") != -1) {
+		     var str = url.substr(1);
+		     strs = str.split("&");
+		     for(var i = 0; i < strs.length; i ++) {
+		        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+		       }
+		      }
+		       return theRequest;
+		  }
+		   var Request = new Object();
+		   Request = GetRequest();
+		   var username=Request["username"];
+		    console.log(username); */
+		   var username='<%=pageContext.getAttribute("username") %>';
+		   if(username==''||username==undefined){
+		     loading.style.display="block";
+		     loginstatus.style.display="none";
+		     userdisplay.style.display="none";
+		    }else{
+		     loginstatus.style.display="block";
+		     loading.style.display="none";
+		     userdisplay.style.display="block";
+		    } 
+		 
+		</script>
+ </body>
+</html>

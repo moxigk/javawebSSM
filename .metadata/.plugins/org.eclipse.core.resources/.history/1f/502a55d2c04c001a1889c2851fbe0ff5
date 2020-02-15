@@ -1,0 +1,227 @@
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.clear{
+	clear: both;
+}
+.top{
+	width: 100%;
+	height: 75px;
+	background-color: #f04927;
+	position:fixed ;
+}
+.top .logo img{
+	padding-left: 30px;
+	padding-top: 13px;
+	margin-left: 30px;
+	width: 200px;
+}
+.top .logo{
+	float: left;
+}
+.top .nav{
+	float: left;
+}
+.top .nav ul{
+	padding-left: 40px;
+}
+.top .nav ul li{
+	float:left;
+	width: 80px;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	margin-left: 20px;
+}
+.top .nav ul li .top_link{
+	text-decoration: none; 
+	color: black;
+	font-size: 16px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+}
+.top .nav .feature:hover{
+	background-color: antiquewhite;
+	cursor: pointer;
+}
+.usernamestatus{
+	margin-top:10px;
+	font-size:16px;
+	font-family:"微软雅黑";
+	font-weight:bold;
+	display:block
+}
+.top .loading{
+	float: right;
+	padding-right: 50px;
+	padding-top: 20px;
+	border-radius: 20px;
+}
+.top .loading .btn{
+	background-color: #f04927;
+	color: black;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	font-weight: bold;
+	outline: none;	
+	opacity:1;
+}
+.main{
+	width: 100%;
+	padding-top: 75px;
+}
+.main .banner{
+	width: 100%;
+	height: auto;
+	background-color: antiquewhite;	
+	text-align: center;
+	
+	
+}
+.main .ecard_box{
+	width: 100%;
+	height: auto;
+	background-color: whitesmoke;
+}
+.main .ecard_box .ecard_box_content{
+    width: 100%;
+    height: 130px;
+    text-align: center;
+    line-height: 130px;
+}
+.main .ecard_box .ecard_box_content{
+	font-family: "微软雅黑";
+	font-size: 30px;
+	color: black;
+}
+.main .ecard_box .ecard_box_name{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	color: black;
+	text-align: center;
+}
+.main .ecard_box .ecard_box_img{
+    width: 100%;
+	padding-left: 100px;	
+}
+.main .ecard_box .ecard_box_img  img{
+	margin-left: 60px;
+	margin-top: 30px;
+	margin-right: 60px;
+	margin-bottom: 20px;
+	width: 200px;
+	height: 250px;
+}
+.main .ecard_box .ecard_box_img .common{
+	float: left;
+}
+.main .ecard_box .ecard_box_img .common:hover{
+	opacity: 0.5;
+}
+.main .ecard_box .ecard_box_img p{
+	font-size: 16px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	text-align: center;
+	
+}
+.main .ecard_box .ecard_box_desc{
+	width: 100%;
+	text-align: center;
+	padding-top: 40px;
+	
+}
+.main .ecard_box .ecard_box_desc .desc{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	color: #000000;
+	text-decoration: none;
+}
+------------------------------------------------
+.main .invite_box{
+	width: 100%;
+	height: auto;
+	background-color: white;
+}
+.main .invite_box .invite_box_content{
+    width: 100%;
+    height: 140px;
+    text-align: center;
+    line-height: 130px;
+}
+.main .invite_box .invite_box_content{
+	font-family: "微软雅黑";
+	font-size: 30px;
+	color: black;
+}
+.main .invite_box .invite_box_name{
+	font-family:"微软雅黑";
+	font-size: 20px;
+	color: black;
+	text-align: center;
+	height: 50px;
+}
+.main .invite_box .invite_box_img{
+	width: 100%;
+	padding-left: 100px;	
+}
+.main .invite_box .invite_box_img  img{
+	margin-left: 60px;
+	margin-top: 30px;
+	margin-right: 60px;
+	margin-bottom: 20px;
+	width: 200px;
+	height: 250px;
+}
+.main .invite_box .invite_box_img .common{
+	float: left;
+}
+.main .invite_box .invite_box_img .common:hover{
+	opacity: 0.5;
+	
+}
+.main .invite_box .invite_box_img p{
+	font-size: 16px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	text-align: center;
+}
+.main .invite_box .invite_box_desc{
+	width: 100%;
+	text-align: center;
+	padding-top: 40px;
+	
+}
+.main .invite_box .invite_box_desc .desc{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	color: #000000;
+	text-decoration: none;
+}
+.footer{
+	background-color: bisque;
+	width: 100%;
+	height: 200px;
+	padding-top: 10px;
+	
+}
+.footer_link{
+	width: 100%;
+	height: 50px;
+	padding: 30px;
+}
+.footer_link ul li{
+	float: left;
+	margin-left: 100px;
+	font-family: "微软雅黑";
+	font-size: 16px;	
+}
+.footer span{
+	float: right;
+	margin-right: 200px;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	font-weight: bold;
+}

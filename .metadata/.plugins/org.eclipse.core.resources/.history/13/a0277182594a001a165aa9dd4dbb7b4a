@@ -1,0 +1,9 @@
+package com.bishe.ecard.utils;
+import com.bishe.ecard.utils.*;
+public class testUtils {
+	
+  Utils.sendEmail("1048618309","123456");
+	
+	
+
+}

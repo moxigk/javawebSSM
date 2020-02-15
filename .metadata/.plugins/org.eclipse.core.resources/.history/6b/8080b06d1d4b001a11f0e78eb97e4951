@@ -1,0 +1,14 @@
+package com.bishe.ecard.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.bishe.ecard.entity.user;
+@Mapper
+public interface testDao {
+
+	user find();
+
+	int loginvalited(String username);
+
+}

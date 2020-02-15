@@ -1,0 +1,247 @@
+package com.bishe.ecard.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.imageio.spi.RegisterableService;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
+
+import org.apache.catalina.deploy.LoginConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bishe.ecard.entity.user;
+import com.bishe.ecard.service.userService;
+import com.bishe.ecard.utils.Utils;
+
+@Controller
+public class userController {
+	@Autowired
+	userService tService;
+	//按用户名查询
+	@ResponseBody
+	@RequestMapping(value="/userselect",method=RequestMethod.POST)
+	public Map<String, Object> userselect(HttpServletRequest request) throws Exception, IOException{
+		Map<String, Object> map=new HashMap<>();		
+		String username=request.getParameter("username");
+		List<user> usermsg=tService.userselect(username);
+		//System.out.println();
+		 String u1=""; 
+		for(user u:usermsg) {
+			   u1=u.getUserName();
+			  System.out.println(u.toString());
+		  }
+		if(u1.equals(username)) {   
+		map.put("msg", "0");
+		map.put("usermsg", usermsg);
+		}else {
+		map.put("msg", "1");
+		}
+		return map;
+	}
+	
+	//查询用户是否管理员
+	@ResponseBody
+	@RequestMapping(value="/selectstatus",method=RequestMethod.POST)
+	public Map<String, Object> selectstatus(HttpServletRequest request){
+		Map<String, Object> map=new HashMap<>();
+		String username=request.getParameter("username");
+		user status=tService.selectstatus(username);
+		String userStatus=status.getUserStatus();
+		System.out.println(userStatus.equals("1"));
+		if(userStatus.equals("1")) {	
+			
+			map.put("msg", "1");
+		}else {		
+			map.put("msg", '0');
+		}
+		return map;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/updatepass",method=RequestMethod.POST)
+	public Map<String, Object> updatepass(HttpServletRequest request){
+		Map<String, Object> map =new HashMap<>();
+		String username=request.getParameter("username");
+		String userpass=request.getParameter("userpass");
+		int n=tService.updatepass(username,userpass);
+		if(n==1) {
+			map.put("msg", "0");
+		}else {
+			map.put("msg", "1");
+		}
+		return map;
+	}
+	
+	
+	
+	
+	//跳转首页
+	@RequestMapping("/index")
+	public String  indexpage() {
+		return "index";
+	}
+	//跳转管理页
+	@RequestMapping("/manager")
+	public String managerpage() {
+		return "manager";
+	}
+	//跳转登录页面
+	@RequestMapping("/loginpage")
+	public String loginpage() {
+		return "login1";
+	}
+	//跳转注册页面
+	@RequestMapping("/registerpage")
+	public String registerpage() {
+		return "register1";
+	}
+	/*
+	 * 用户名验证
+	 */
+	@ResponseBody
+	@RequestMapping("/usernamevalited")
+	public Map<String, Object> usernameValited(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		Map<String, Object> map=new HashMap<>();
+		String  username=request.getParameter("username");
+		int n =tService.loginvalited(username);
+		if(n>=1) {			
+			map.put("msg", "0");			
+		}else {
+			map.put("msg", "1");
+		}
+		return map;
+	}
+	/*
+	 * 注册
+	 */
+	@ResponseBody
+	@RequestMapping(value="/register",method=RequestMethod.POST)
+	public Map<String, Object>  userregister(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		Map<String, Object> map=new HashMap<>();
+		String  username=request.getParameter("username");
+		String  userpass=request.getParameter("password");
+		String  email=request.getParameter("email");
+		String  code=request.getParameter("code");
+		Date time= new java.sql.Date(new java.util.Date().getTime());
+		int n =tService.loginvalited(username);		
+		if(n!=1) {
+			int n1=tService.insertUser(username,userpass,email,time);
+			if(n1==1) {
+				map.put("msg", "0");
+			}else {
+				map.put("msg", '1');
+			}	
+		}
+		return map;
+		
+	}
+	
+	//验证码
+	@ResponseBody
+	@RequestMapping("/sendcode")
+	public Map<String, Object> sendcode(HttpServletRequest request){
+		Map<String, Object> map=new HashMap<>();
+		String emailaddress=request.getParameter("email");
+		Utils utils=new Utils();
+		if(utils.sendEmail(emailaddress)) {
+			int code=utils.getCode();
+		   String msg=code+""; 
+		   map.put("msg", msg);
+		   map.put("status", '0');
+		}else {
+			map.put("msg", "发送失败");
+		}
+		return map;
+	}
+	
+	
+	/*
+	  * 登录验证
+	 */
+	@ResponseBody
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+    public Map<String, Object> loginvalited(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		   Map<String, Object> map=new HashMap<>();
+		   String username=request.getParameter("username");
+		   String password=request.getParameter("password");
+		   Date time= new java.sql.Date(new java.util.Date().getTime());
+		   int  u= tService.loginvalited(username);
+		   if(u>=1) {
+		    user u1=tService.loginpass(username);
+			if(u1.getUserPass().equals(password)) {
+				int n=tService.updateLoginTime(username,time);
+				if(n>=1) {
+					map.put("msg", '0');
+					Cookie  cookie=new Cookie("username", username);
+					cookie.setMaxAge(60*60*24);
+					cookie.setPath("/ecard/");
+					response.addCookie(cookie);
+					
+				}else {
+					map.put("msg", "1");
+				}
+				 
+			  }else {
+				  map.put("msg", "1");
+			}
+		   }else {
+			map.put("msg", "1");
+		}
+		   
+		 return map;
+		   
+	}
+	
+	
+	
+	//测试
+	@ResponseBody
+	@RequestMapping("/list")
+	public Map<String, Object> find() {
+		Map<String, Object> map=new HashMap<>();
+		user tuser=tService.find();
+		map.put("user", tuser);
+		return map;
+	}
+	
+    //邮箱
+	@ResponseBody
+	@RequestMapping(value="/sendmsg",method=RequestMethod.POST)
+	public Map<String, Object> sendMsg(HttpServletRequest request) {
+		Map<String, Object> map1=new HashMap<>();
+		Map<String, Object> map2=new HashMap<>();
+		Map<String, Object> map=new HashMap<>();
+		List<Map<String, Object>> list=new ArrayList<>();
+		Utils utils=new Utils();
+		String email=request.getParameter("email");
+		if(Utils.sendEmail(email)) {
+			int code=utils.getCode();
+			map1.put("msg", code);
+			map2.put("msg1", "鍙戦�佹垚鍔�");
+			list.add(map1);
+			list.add(map2);
+			map.put("msg", list);
+		}else {
+			map.put("msg", "鍙戦�佸け璐�");
+			
+		}
+		return  map;
+		
+	}
+
+}

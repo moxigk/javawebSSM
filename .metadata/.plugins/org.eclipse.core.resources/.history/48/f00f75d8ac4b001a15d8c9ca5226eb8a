@@ -1,0 +1,21 @@
+package com.bishe.ecard.dao;
+
+import java.sql.Date;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.bishe.ecard.entity.user;
+@Mapper
+public interface userDao {
+
+	user find();
+
+	int loginvalited(String username);
+
+	user loginpass(String username);
+
+	int insertUser(String username, String password, String email, Date time);
+
+
+}

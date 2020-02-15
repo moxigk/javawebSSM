@@ -1,0 +1,37 @@
+package com.bishe.ecard.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.bishe.ecard.entity.card;
+import com.bishe.ecard.service.cardService;
+
+@Controller
+public class cardController {
+
+	@Autowired
+	private cardService cService;
+	
+	public Map<String, Object> selectcardType(HttpServletRequest request){
+		Map<String, Object> map=new HashMap<String, Object>();
+		String cardType=request.getParameter("type");
+		if(cardType!="") {
+			List<card> cardlist=cService.selectcardType(cardType);
+			if(cardlist!=null) {
+				map.put("msg", "0");
+				map.put("cardmsg", cardlist);
+			}else {
+				map.put("msg", "1");
+			}
+		}else {
+			map.put("msg", "1");
+		}
+		
+	}
+}

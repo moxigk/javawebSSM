@@ -1,0 +1,37 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+.sidebar{
+	margin-top: 50px;
+	margin-left: 150px;
+	width: 210px;
+	border-radius: 20px;
+	border: 1px solid;
+    text-align: center;
+    float: left;
+}
+
+.main{
+	background-color: antiquewhite;
+}
+.sidemune{
+	margin: 20px;
+	cursor: pointer;
+}
+.userdisplay{
+	text-align: center;
+}
+.sidemune li{
+	margin: 20px;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	font-weight: bold;
+}
+.content{
+	float: left;
+	border: 1px solid;
+	width: 1100px;
+	margin-top: 50px;
+	height: 600px;
+}

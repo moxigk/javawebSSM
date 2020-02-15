@@ -1,0 +1,14 @@
+package com.bishe.ecard.utils;
+import com.bishe.ecard.utils.*;
+public class testUtils {
+	
+	
+  public void test() {
+	  String emailaddress="1048618309@qq.com";
+	  String code="456785";
+	  Utils.sendEmail(emailaddress, code)
+  }
+	
+	
+
+}

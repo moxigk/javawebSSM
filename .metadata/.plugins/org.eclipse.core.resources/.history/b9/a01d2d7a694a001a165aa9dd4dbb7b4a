@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+	</head>
+	<body>
+		<form id="form1" action="#" method="post">
+			邮箱：<input type="email" name="email" id="email" value="" />
+			<input type="button" value="提交" onclick="login()"/>
+		</form>
+		<script type="text/javascript">
+			function login(){
+				$.ajax({
+					type:"post",
+					url:"http://localhost:8080/ecard/sendmsg",
+					async:true,
+					data:$("#form1").serialize(),
+					success:function(data){
+						alert("成功")
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

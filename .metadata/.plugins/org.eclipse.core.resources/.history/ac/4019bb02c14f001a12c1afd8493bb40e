@@ -1,0 +1,85 @@
+package com.bishe.ecard.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bishe.ecard.entity.card;
+import com.bishe.ecard.entity.user;
+import com.bishe.ecard.service.cardService;
+
+@Controller
+public class cardController {
+
+	@Autowired
+	private cardService cService;
+	
+	
+	//删除模板信息
+	@ResponseBody
+	@RequestMapping(value="/deletecard",method=RequestMethod.POST)
+	public Map<String, Object> deletecard(HttpServletRequest request){
+		Map<String, Object> map=new HashMap<>();
+		String[] card = request.getParameterValues("cardcke");
+		int n=0;
+		if(card!=null) {
+		for(int i=0;i<card.length;i++) {
+			 n=cService.deletecard(Integer.parseInt(card[i]));
+		}
+		if(n>=0) {
+			List<card> cardsall=cService.selectcardAll();
+			if(cardsall!=null) {
+				map.put("msg", "0");
+				map.put("usermsg", cardsall);
+			}else {
+				map.put("msg", "1");
+			}
+		}
+	   }else {
+		map.put("msg", "1");
+	}
+		return map;
+		
+	}
+	
+	//模板全部查询
+	@ResponseBody
+	@RequestMapping(value="/selectcardAll",method=RequestMethod.POST)
+	public Map<String, Object> selectcardAll(){
+		Map<String, Object> map=new HashMap<>();
+		List<card> cardsall=cService.selectcardAll();
+		if(cardsall!=null) {
+			map.put("msg", "0");
+			map.put("cardmsg", cardsall );
+		}
+		return map;
+	}
+	//通过模板类型查询
+	@ResponseBody
+	@RequestMapping(value="/selectcardType",method=RequestMethod.POST)
+	public Map<String, Object> selectcardType(HttpServletRequest request){
+		Map<String, Object> map=new HashMap<String, Object>();
+		String cardType=request.getParameter("type");
+		System.out.println(cardType);
+		if(cardType.equals("1")||cardType.equals("2")) {
+			List<card> cardlist=cService.selectcardType(cardType);
+			if(cardlist!=null) {
+				map.put("msg", "0");
+				map.put("cardmsg", cardlist);
+			}else {
+				map.put("msg", "1");
+			}
+		}else if(cardType.equals("0")){
+			map.put("msg", "1");
+		}
+		return map;
+	}
+}

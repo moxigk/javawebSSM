@@ -1,0 +1,26 @@
+package com.bishe.ecard.entity;
+
+public class user {
+	private String userid;
+	private String userName;
+	private String userPass;
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getUserNames() {
+		return userNames;
+	}
+	public void setUserNames(String userNames) {
+		this.userNames = userNames;
+	}
+	public String getUserPass() {
+		return userPass;
+	}
+	public void setUserPass(String userPass) {
+		this.userPass = userPass;
+	}
+
+}

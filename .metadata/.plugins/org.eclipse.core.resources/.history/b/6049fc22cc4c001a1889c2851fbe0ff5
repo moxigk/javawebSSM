@@ -1,0 +1,213 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+ <% 
+String path=request.getContextPath();
+String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+pageContext.setAttribute("basePath", basePath);
+%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ecard</title>
+		<link href="${pageScope.basePath}/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${pageScope.basePath}/css/shouye.css" rel="stylesheet">
+		<script src="${pageScope.basePath}/js/jquery-3.4.1.min.js"></script>
+		<!-- 引入BootStrap核心js文件 -->
+		<script src="${pageScope.basePath}/js/bootstrap.min.js"></script>		
+	</head>
+	<body>
+	<% String param=request.getParameter("username"); 
+	   request.setAttribute("username", param);
+	   Cookie cookie[]=request.getCookies();
+	   for(Cookie c:cookie){
+		  if(c.getValue().equals(param)){
+			  pageContext.setAttribute("username",c.getValue());
+		  }
+	   }
+	   
+	%>
+	  <!--${requestScope.username},
+	  ${pageScope.username}  -->
+		<!--头部-->
+		<div class="top">
+			<div class="logo">
+				<a href="index.html"><img src="img/logo.png"></a>
+			</div>
+			<div class="nav">
+				<ul>
+					<li class="feature"><a href="index.jsp" class="top_link">首页</a></li>
+					<li class="feature"><a href="#" class="top_link">电子贺卡</a></li>
+					<li class="feature"><a href="#" class="top_link">请帖</a></li>
+					<li class="feature"><a href="#" class="top_link">个人管理</a></li>
+					<li class="feature"><a href="#" class="top_link">系统管理</a></li>
+				</ul>
+			</div>
+			<div class="loginstatus" id="loginstatus">
+			<span class="usernamestatus" id="usernamestatue">${pageScope.username}&nbsp;&nbsp;:&nbsp;欢迎使用凯诚设计！</span>
+			</div>
+			<div class="loading" id="loading">
+				<a href="${pageScope.basePath }/loginpage"><button class="btn" id="login-btn" >登录</button></a>
+				<a href="${pageScope.basePath }/registerpage"><button class="btn" id="register-btn">注册</button></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--主体部分-->
+		<div class="main">
+			<!--主体banner图-->
+			<div class="banner-box">
+			 <div class="banner">
+				   <div class="banner-list">
+				   	   <img src="img/qtmb_img/qtmb2.jpg" />
+				   </div>
+				   
+				</div>
+				<!--按钮-->
+				<a href="javascript:void(0);" class="banner-btn pre"></a>
+				<a href="javascript:void(0);" class="banner-btn pre"></a>
+			</div>
+			<div class="ecard_box">
+				<div class="ecard_box_content">
+					<p>数十种模板任由挑选</p>
+				</div>
+				<div class="ecard_box_name">贺卡模板</div>
+				<div class="ecard_box_img">
+					<div class="ecard_box_img1 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb1.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img2  common">
+						<a href="#" ><img src="img/qtmb_img/qtmb2.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb3.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb4.png" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb5.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb6.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb1.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="ecard_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb1.jpg" /></a>
+						<p>邀请函</p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="ecard_box_desc">
+					<a href="#" class="desc">更多模板>></a>
+				</div>
+			</div>
+			<div class="invite_box">
+				<div class="invite_box_content">
+					<p>灵感的每次涌现，都是创作的萌芽</p>
+				</div>
+				<div class="invite_box_name">请帖模板</div>
+				<div class="invite_box_img">
+					<div class="invite_box_img1 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb1.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img2  common">
+						<a href="#" ><img src="img/qtmb_img/qtmb2.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb3.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb4.png" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb5.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb6.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb5.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="invite_box_img3 common">
+						<a href="#" ><img src="img/qtmb_img/qtmb5.jpg" /></a>
+						<p>请帖</p>
+					</div>
+					<div class="clear"></div>
+			</div>
+			<div class="invite_box_desc">
+					<a href="#" class="desc">更多模板>></a>
+			</div>
+		</div>
+		<!--底部-->
+		<div class="footer">
+			<div class="footer_link">
+				<ul>
+					<li><a href="#">最新素材</a></li>
+					<li><a href="#">热门话题</a></li>
+					<li><a href="#">关于我们</a></li>
+					<li><a href="#">联系我们</a></li>
+				</ul>
+			</div>
+			
+			 <span>十秒解决PS难题</span>
+		</div>	
+     </div>
+     <script type="text/javascript">
+    
+     var usernamestatue=document.getElementById('usernamestatue');
+	 var loading=document.getElementById('loading');
+	 var loginstatus=document.getElementById('loginstatus');
+	 
+          //js获取请求参数方法
+        window.onload=function(){
+         
+          function GetRequest() {
+        	    var url = location.search; //获取url中"?"符后的字串
+        	    var theRequest = new Object();
+        	    if (url.indexOf("?") != -1) {
+        	        var str = url.substr(1);
+        	        strs = str.split("&");
+        	        for(var i = 0; i < strs.length; i ++) {
+        	            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        	        }
+        	    }
+        	    return theRequest;
+        	}
+          var Request = new Object();
+          Request = GetRequest();
+          var username=Request["username"];
+          console.log(username);
+         if(username==''||username==undefined){
+       	  loading.style.display="block";
+       	  loginstatus.style.display="none";
+         }else{
+       	  loginstatus.style.display="block";
+       	  loading.style.display="none";
+         }
+          }
+     </script>
+    </body>
+</html>
+

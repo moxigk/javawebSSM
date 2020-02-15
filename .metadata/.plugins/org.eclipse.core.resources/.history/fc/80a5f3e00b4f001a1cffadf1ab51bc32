@@ -1,0 +1,256 @@
+<%@page import="com.bishe.ecard.entity.user"%>
+<%@page import="java.util.List"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+ <% 
+String path=request.getContextPath();
+String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+pageContext.setAttribute("basePath", basePath);
+
+%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link href="${pageScope.basePath}/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${pageScope.basePath}/css/shouye.css" rel="stylesheet">
+		<script src="${pageScope.basePath}/js/jquery-3.4.1.min.js"></script>
+		<!-- 引入BootStrap核心js文件 -->
+		<script src="${pageScope.basePath}/js/bootstrap.min.js"></script>	
+		<style type="text/css">
+			.usermanager{
+				height: 500px;
+				text-align: center;
+				margin-left: 200px;
+				margin-top: 20px;
+				margin-right: 200px;
+				
+				font-size: 20px;
+				font-family: "微软雅黑";
+				display: none;
+				}
+			.usertable{
+				padding-top: 10px;
+			    text-algin:center;
+			}	
+			.usertr{
+				margin-left: 20px;
+				}
+			.tatle{
+				text-align: center;
+				font-family: "微软雅黑";
+				font-size: 23px;
+				font-weight: bold;
+				
+				}
+			td{
+				border-bottom: 1px solid aqua;
+				border-left: 1px solid aqua;
+			}
+			th{
+			  margin-left:10px;
+			}
+			.selectuser{
+				margin-top: 20px;
+				height: 30px;				
+				margin-left: 200px;
+				font-family: "微软雅黑";
+				display: none;
+			}
+			.msg{
+				margin-left: 30px;
+				margin-top: 10px;
+				font-size:20px;
+				
+			}
+			.msg{
+			   float:left;
+			}
+			.delete{
+			 float:left;
+			 margin-left:200px;
+			 margin-top:30px;
+			}
+		</style>
+
+</head>
+<body>
+	<% /* String param=request.getParameter("username"); 
+	   request.setAttribute("username", param); */
+	   Object user1=session.getAttribute("user");
+	   Object user=request.getAttribute("user");
+	   System.out.println("request----------"+user);
+	   Cookie cookie[]=request.getCookies();
+	   if(cookie!=null){
+	   	 for(int i=0;i<cookie.length;i++){
+	   		 Cookie c=cookie[i];
+	   		 if(cookie[i].getName().equals("username")){
+				  pageContext.setAttribute("username",c.getValue());	
+				  System.out.println("usermanage+"+pageContext.getAttribute("username"));
+		   		 }else{
+		   			pageContext.setAttribute("username","");
+		   			System.out.println("usermanage+"+pageContext.getAttribute("username"));
+		   		 }
+	   	 }	   	
+	   }%>
+	  
+		<div class="tatle">
+			用户管理中心
+		</div>
+		<div class="selectuser" id="selectuser">
+			<span class="">按用户名查询：</span>&nbsp;&nbsp;
+			<input type="text" name="username" id="username" value="" />&nbsp;&nbsp;
+			<button type="button" class="selectusername-btn" id="selectusername_btn">查询信息</button>&nbsp;&nbsp;
+		    <button type="button" class="select-btn" id="select_btn">查询全部用户信息</button><br />
+		  	    
+		</div>
+		<div class="delete">
+		    <button type="button" class="deleteuser" id="deleteuser">删除</button>
+		</div>
+		<div class="msg">
+			  <span class="msg" id="msg"></span>	
+		</div>
+		<div class="clear"></div>
+		<div class="usermanager" id="usermanager">
+			<table id="tableuser"   algin="center"  width="100%"> 
+			  <thead>	
+				<tr >
+					<th>选择</th>
+					<th>序号</th>
+					<th>用户名</th>
+					<th>邮箱</th>
+					<th>注册时间</th>
+					<th>登录时间</th>
+					<th colspan="2">操作</th>					
+				</tr>
+			</thead>
+			<tbody></tbody>		   									
+			</table>
+			
+		</div>
+	<script type="text/javascript">
+	//获取cookie中的值 查询状态为1是普通用户，只给msg中显示你不是管理员
+	//查询是0则为管理员   显示用户信息的界面			
+			var username='<%=pageContext.getAttribute("username")%>';
+			console.log(username+"--------");
+			var msg=document.getElementById('msg');
+			var selectuser=document.getElementById('selectuser');
+			var usermanager=document.getElementById('usermanager');
+			$(function(){
+				$.ajax({
+					type:"post",
+					url:"${pageScope.basePath}/selectstatus",
+					async:true,
+					data:{"username":username},
+					success:function(data){
+						if(data.msg=='1'){
+							msg.style.color='red';							
+							msg.innerHTML="你不是管理员用户，无权操作";
+						}else if(data.msg=='0'){
+							selectuser.style.display='block';
+							usermanager.style.display='block';
+						}else if(data.msg=='2'){
+							msg.style.color='red';		
+							msg.innerHTML="请你先登录";
+						}
+					}
+				});				
+			});					
+			//后台获取数据添加到表格
+			var selectusername_btn=document.getElementById("selectusername_btn");
+			var usernameselect=document.getElementById('username');
+			var select_btn=document.getElementById('select_btn');
+			selectusername_btn.onclick=function(){	
+				$.ajax({
+					type:"post",
+					url:"${pageScope.basePath}/userselect",
+					async:true,
+					data:{'username':usernameselect.value},
+					success:function(data){
+						if(data.msg=='1'){
+							msg.style.color='red';
+							msg.innerHTML="没有查询到"+usernameselect.value+"相关信息";
+							$("tbody").detach();//删除节点的
+						}else{		
+					      //console.log(data.usermsg[0].userId);
+					      $("tbody").detach();
+							var res=data.usermsg;
+						    msg.innerHTML="";
+							console.log(res);
+							var str='';
+							//var sthead='<thead>	<tr ><th>序号</th><th>用户名</th><th>邮箱</th><th>注册时间</th><th>登录时间</th><th colspan="2">操作</th></tr></thead>'
+							$.each(res,function(index,result){
+								//console.log(index+result.userName);
+								str='<td>'+result.userId+'</td>'+'<td>'+result.userName+'</td>'+
+								'<td>'+result.email+'</td>'+'<td>'+result.registerTime+'</td>'+'<td>'+
+								result.loginTime+'</td>'+'<td>'+'<a href="#">删除</a></td>';
+								$("#tableuser").append('<tbody><tr>'+str+'</tr><tbody>');
+							});
+						
+					}
+					}
+				});
+			}
+			var flag=false;
+			select_btn.onclick=function(){
+				$.ajax({
+					url:"${pageScope.basePath}/userSelectAll",
+					type:"post",
+					aysnc:true,
+					success:function(data){
+						if(data.msg=='1'){
+							$("tbody").detach();
+							var res=data.usermsg;
+							msg.innerHTML="";
+							var str="";
+							$.each(res,function(index,result){
+								//console.log(index+result.userName);
+								str='<td><input type="checkbox" name="username" id="username" value="'+result.userName+'">'+'</td>'+'<td>'+result.userId+'</td>'+'<td>'+result.userName+'</td>'+
+								'<td>'+result.email+'</td>'+'<td>'+result.registerTime+'</td>'+'<td>'+
+								result.loginTime+'</td>'+'<td>'+'</td>';
+								$("#tableuser").append('<tbody><tr>'+str+'</tr><tbody>');
+								
+							});
+							
+						}else if(data.msg=='0'){
+							msg.innerHTML="未查询到数据";
+							msg.style.color='red';
+						}
+					}
+				});
+			}
+			function getChexBoxValue(){
+				var test=$("input[name='username']:checked");
+				var checkBoxValue="";
+				test.each(function(index){
+					checkBoxValue+="username"+(index+1)+":"+$(this).val()+",";
+				});
+				checkBoxValue=checkBoxValue.substring(0,checkBoxValue.length-1);
+				console.log(checkBoxValue);
+			}
+			var deleteuser=document.getElementById("deleteuser");
+			
+			deleteuser.onclick=function(){
+				   getChexBoxValue();
+				    $.ajax({
+					type:'post',
+					url:'${pageScope.basePath}/deleteuser',
+					aysnc:true;
+					data:{checkBoxValue},
+					success:function(data){
+						
+					}
+				});
+			}
+			 
+		</script>
+</body>
+</html>
+

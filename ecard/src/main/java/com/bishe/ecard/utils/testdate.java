@@ -1,0 +1,13 @@
+package com.bishe.ecard.utils;
+
+import java.sql.Date;
+
+public class testdate {
+     
+	public static void main(String[] args) {
+		String string="Sat Feb 15 15:22:08 CST 2020";
+		String string2=dateSimp.formatDate1(string);
+		
+	}	
+	
+}

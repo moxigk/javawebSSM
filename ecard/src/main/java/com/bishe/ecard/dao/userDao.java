@@ -1,0 +1,35 @@
+package com.bishe.ecard.dao;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.bishe.ecard.entity.user;
+@Mapper
+public interface userDao {
+
+	user find();
+
+	int loginvalited(String username);
+
+	user loginpass(String username);
+
+	int insertUser(@Param("username")String username,@Param("password") String password,@Param("email") String email,@Param("time") Timestamp time);
+
+	int updateLoginTime(@Param("username")String username,@Param("time")Timestamp time);
+
+	int updatepass(@Param("username")String username, @Param("userpass")String userpass);
+
+	user selectstatus(String username);
+
+	List<user> userselect(String username);
+
+	List<user> userSelectAll();
+
+	int deleteuser(String username);
+
+
+}

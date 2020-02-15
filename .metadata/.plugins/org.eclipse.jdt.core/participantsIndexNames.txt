@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+F:\±œ…Ë\Ecard\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1572681354.index
+\ecard\src\main\resources
+F:\bishe\Ecard\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1572681354.index
+\ecard\src\main\java

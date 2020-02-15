@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.bishe.ecard.dao.testDao">
+      <select id="find" resultType="com.bishe.ecard.entity.user">
+          select userid,userNames,userPass from user where userid=1
+      </select>
+      
+      <select id="loginvalited" resultType="com.bishe.ecard.entity.user">
+         select count(user_name) from user where user_name=#{username}
+      </select>
+    </mapper>

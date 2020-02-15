@@ -1,0 +1,14 @@
+package com.bishe.ecard.utils;
+import com.bishe.ecard.utils.*;
+public class testUtils {
+	
+	
+  public static  void main(String arg[]) {
+	  String emailaddress="1048618309@qq.com";
+	  
+	  Utils.sendEmail(emailaddress);
+  }
+	
+	
+
+}

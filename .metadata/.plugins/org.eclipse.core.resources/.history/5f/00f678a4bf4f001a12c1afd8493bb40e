@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.bishe.ecard.dao.cardDao">
+       <select id="selectcardType" resultType="com.bishe.ecard.entity.card">
+          select card_id,card_name,card_type,card_path,card_time,card_count from ecard_card
+          where card_type=#{cardType}
+       </select>
+       
+       <select id="selectcardAll" resultType="com.bishe.ecard.entity.card">
+          select card_id,card_name,card_type,card_path,card_time,card_count from ecard_card
+       </select>
+    </mapper>
